@@ -1,26 +1,25 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Layout from "./components/layout/Layout";
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
+import Characters from "./components/pages/Characters";
+import MyWatchList from "./components/pages/MyWatchList";
+import InitFilters from "./components/InitFilters";
+import OverlayWithSpinner from "./components/shared/UI/overlayWithSpiner/OverlayWithSpinner";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+    return (
+        <Router>
+            <Layout>
+                <OverlayWithSpinner />
+                <InitFilters />
+                <Routes>
+                    <Route path='' element={<Characters />} />
+                    <Route path='/list' element={<MyWatchList />} />
+                </Routes>
+            </Layout>
+        </Router>
+    );
 }
 
 export default App;

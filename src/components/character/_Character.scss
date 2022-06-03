@@ -1,0 +1,13 @@
+.character {
+  max-width: calc(710px / 5) ;
+  &__image {
+    max-width: 100%;
+  }
+  h4, p {
+    margin: 0;
+    color: $color-white;
+  }
+  h4 {
+    margin-bottom: .5;
+  }
+}

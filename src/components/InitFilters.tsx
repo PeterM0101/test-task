@@ -7,6 +7,7 @@ import {fillFilterOptions} from "../utils/fillFilterOptions";
 import {filtersActions} from "../store/filtersSlice";
 import {FiltersObj} from "./Filters/Filters";
 import {httpStatusActions} from "../store/httpStatus";
+import {infoDBCharactersActions} from "../store/infoDBCharacters";
 
 const InitFilters = () => {
     const [characters, setCharacters] = useState<Interfaces[]>([]);
@@ -43,7 +44,9 @@ const InitFilters = () => {
                     genderOptions: [...genderOptions, 'empty'],
                     speciesOptions: [...speciesOptions, 'empty'],
                     statusOptions: [...statusOptions, 'empty']
-                }))
+                }));
+                console.log({...info, currentURL: "https://rickandmortyapi.com/api/character?page=1"})
+                dispatch(infoDBCharactersActions.setInfo({...info, currentURL: "https://rickandmortyapi.com/api/character?page=1"}))
             }
         }, [url]
     )

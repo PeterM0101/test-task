@@ -4,6 +4,8 @@ import Button from "../shared/UI/button/Button";
 import {useDispatch, useSelector} from "react-redux";
 import {AppDispatch, RootState} from "../../store";
 import {filtersActions} from "../../store/filtersSlice";
+import {infoDBCharactersActions} from "../../store/infoDBCharacters";
+import newURL from "../../utils/newURL";
 
 
 export interface FiltersObj {
@@ -15,7 +17,6 @@ export interface FiltersObj {
 const filtersInitialState = {"gender": "empty", "species": "empty", "status": "empty"}
 
 const Filters: FC = () => {
-    console.log(filtersInitialState)
     const [filterValues, setFilterValues] = useState<{[key: string]: string}>(filtersInitialState);
     const {genderOptions, speciesOptions, statusOptions} = useSelector((state: RootState) => state.filters.filtersOptions)
     const dispatch = useDispatch<AppDispatch>()
@@ -27,11 +28,15 @@ const Filters: FC = () => {
     const handleSubmitFilters = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         dispatch(filtersActions.setFilters(filterValues));
+        dispatch(infoDBCharactersActions.changeCurrentURL(newURL(1, filterValues)))
+        dispatch(infoDBCharactersActions.setCurrentPage(1))
     }
 
     const handleResetFilters = () => {
         setFilterValues(filtersInitialState);
         dispatch(filtersActions.resetFilters())
+        dispatch(infoDBCharactersActions.changeCurrentURL(newURL(1, filtersInitialState)))
+        dispatch(infoDBCharactersActions.setCurrentPage(1))
     }
 
     return (

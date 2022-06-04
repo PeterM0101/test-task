@@ -1,20 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
-import Info from "../components/data-model/data-info";
 
 export interface infoDBCharactersType {
-    info : {
-        count: number
-        pages: number,
-        currentURL: null | string
-    },
+    count: number,
+    currentURL: null | string,
+    currentPage: number
 }
 
 const infoDBCharactersInitialState: infoDBCharactersType = {
-    info: {
-        count: 0,
-        pages: 0,
-        currentURL: null
-    }
+    count: 0,
+    currentURL: null,
+    currentPage: 1
 }
 
 export const infoDBCharactersSlice = createSlice({
@@ -22,10 +17,16 @@ export const infoDBCharactersSlice = createSlice({
     initialState: infoDBCharactersInitialState,
     reducers: {
         setInfo: (state: infoDBCharactersType, action) => {
-            state.info =  action.payload
+            state =  action.payload
         },
-        changeCurrent: (state: infoDBCharactersType, action) => {
-            state.info.currentURL = action.payload
+        changeCurrentURL: (state: infoDBCharactersType, action) => {
+            state.currentURL = action.payload
+        },
+        setCount: (state: infoDBCharactersType, action) => {
+            state.count = action.payload
+        },
+        setCurrentPage: (state: infoDBCharactersType, action) => {
+            state.currentPage = action.payload
         }
     }
 });

@@ -1,20 +1,17 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import Interfaces from "./data-model/interfaces";
 import DataInfo from "./data-model/data-info";
 import {useDispatch} from "react-redux";
 import {AppDispatch} from "../store";
 import {fillFilterOptions} from "../utils/fillFilterOptions";
 import {filtersActions} from "../store/filtersSlice";
-import {FiltersObj} from "./Filters/Filters";
 import {httpStatusActions} from "../store/httpStatus";
 import {infoDBCharactersActions} from "../store/infoDBCharacters";
 
 const InitFilters = () => {
     const [characters, setCharacters] = useState<Interfaces[]>([]);
     const [info, setInfo] = useState<DataInfo | null>(null);
-    const [isLoading, setIsLoading] = useState(false);
-    const [url, setUrl] = useState<string>('https://rickandmortyapi.com/api/character');
-    const [filters, setFilters] = useState<FiltersObj | null>(null);
+    const [url, setUrl] = useState<string>(`${process.env.REACT_APP_CHARACTERS_URL}/?page=1`);
     const dispatch = useDispatch<AppDispatch>();
 
     useEffect(
@@ -23,9 +20,9 @@ const InitFilters = () => {
             const getCharacters = async (url: string) => {
                 const response = await fetch(url);
                 if (!response.ok) {
-                    throw new Error('Something goes wrong...')
                     dispatch(httpStatusActions.setIsLoading(true));
                     dispatch(httpStatusActions.setError('Something goes wrong...'));
+                    throw new Error('Something goes wrong...')
                 }
                 const data = await response.json();
                 setCharacters((_characters) => {
@@ -45,8 +42,8 @@ const InitFilters = () => {
                     speciesOptions: [...speciesOptions, 'empty'],
                     statusOptions: [...statusOptions, 'empty']
                 }));
-                console.log({...info, currentURL: "https://rickandmortyapi.com/api/character?page=1"})
-                dispatch(infoDBCharactersActions.setInfo({...info, currentURL: "https://rickandmortyapi.com/api/character?page=1"}))
+                dispatch(infoDBCharactersActions.setCount(info?.count))
+                dispatch(infoDBCharactersActions.changeCurrentURL(`${process.env.REACT_APP_CHARACTERS_URL}/?page=1`))
             }
         }, [url]
     )

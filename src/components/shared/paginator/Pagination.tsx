@@ -22,7 +22,6 @@ const Pagination: FC<PaginationProps> = props => {
         className
     } = props;
 
-    console.log('TotalCount: ', totalCount, currentPage, pageSize)
     const paginationRange = usePagination({
         currentPage,
         totalCount,

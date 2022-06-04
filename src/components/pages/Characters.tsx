@@ -7,11 +7,13 @@ import {RootState} from "../../store";
 import {infoDBCharactersActions} from "../../store/infoDBCharacters";
 import Character from "../character/Character";
 import newURL from "../../utils/newURL";
+import Filters from "../Filters/Filters";
 
 const Characters = () => {
     const dispatch = useDispatch();
     const [characters, setCharacters] = useState<Interfaces[]>([]);
     const {currentURL, count, currentPage} = useSelector((state: RootState) => state.info);
+    const isLoading = useSelector((state: RootState) => state.httpStatus.isLoading)
     const {filtersState} = useSelector((state: RootState) => state.filters)
 
     useEffect(
@@ -19,15 +21,21 @@ const Characters = () => {
             dispatch(httpStatusActions.setIsLoading(true));
             const getCharacters = async () => {
                 const response = await fetch(currentURL!);
-                if (!response.ok) {
-                    dispatch(httpStatusActions.setIsLoading(true));
+
+                if (!response.ok && response.status !== 404) {
+                    dispatch(httpStatusActions.setIsLoading(false));
                     dispatch(httpStatusActions.setError('Something goes wrong...'));
                     throw new Error('Something goes wrong...')
                 }
                 const data = await response.json();
-                setCharacters(data.results);
+                if (response.status !== 404) {
+                    setCharacters(data.results);
+                    dispatch(infoDBCharactersActions.setCount(data.info.count))
+                } else {
+                    setCharacters([])
+                    dispatch(infoDBCharactersActions.setCount(0))
+                }
                 dispatch(httpStatusActions.setIsLoading(false));
-                dispatch(infoDBCharactersActions.setCount(data.info.count))
             }
             if (currentURL !== null) getCharacters()
         }, [currentURL]
@@ -40,20 +48,26 @@ const Characters = () => {
 
     return (
         <div className='characters'>
-            <div className='characters__paginator'>
-                {characters && characters.length>0 && (<Pagination
-                    className="pagination-bar"
-                    currentPage={currentPage}
-                    siblingCount={1}
-                    totalCount={count}
-                    pageSize={20}
-                    onPageChange={handlePageChange}
-                />)}
+            <div className='characters__sidebar'>
+                <Filters />
             </div>
-            <div className='characters__container'>
-                {characters && characters.map((character:Interfaces ) => (
-                    <Character key={character.id} image={character.image} name={character.name} status={character.status}/>
-                ))}
+            <div className='characters__content'>
+                <div className='characters__paginator'>
+                    {characters && characters.length>0 && (<Pagination
+                        className="pagination-bar"
+                        currentPage={currentPage}
+                        siblingCount={1}
+                        totalCount={count}
+                        pageSize={20}
+                        onPageChange={handlePageChange}
+                    />)}
+                </div>
+                <div className='characters__container'>
+                    {(count === 0 && characters.length === 0 && !isLoading) && (<p>There is nothing here...</p>)}
+                    {characters && characters.map((character:Interfaces ) => (
+                        <Character key={character.id} image={character.image} name={character.name} status={character.status}/>
+                    ))}
+                </div>
             </div>
         </div>
     );

@@ -1,4 +1,6 @@
-const newURL = (page: number, filtersObject: { [key: string]: string } | null): string => {
+import {SelectedFiltersState} from "../store/filtersSlice";
+
+const newURL = (page: number, filtersObject: SelectedFiltersState | null): string => {
     let filtersArray: [string, string][] = []
     if (filtersObject !== null) {
         filtersArray = Array.from(Object.entries(filtersObject).filter(( item) => item[1] !== 'empty'));

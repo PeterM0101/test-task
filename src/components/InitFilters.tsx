@@ -42,7 +42,7 @@ const InitFilters = () => {
                     speciesOptions: [...speciesOptions, 'empty'],
                     statusOptions: [...statusOptions, 'empty']
                 }));
-                dispatch(infoDBCharactersActions.setCount(info?.count))
+                dispatch(infoDBCharactersActions.setCount(info!.count))
                 dispatch(infoDBCharactersActions.changeCurrentURL(`${process.env.REACT_APP_CHARACTERS_URL}/?page=1`))
             }
         }, [url]

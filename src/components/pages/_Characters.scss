@@ -1,5 +1,18 @@
 .characters {
   margin: 1rem auto;
+  display: flex;
+
+  &__sidebar {
+    flex-basis: 25%;
+    padding: 1rem;
+    max-width: 300px;
+  }
+
+  &__content {
+    flex-basis: 75%;
+    max-width: 800px;
+    margin: 0 auto;
+  }
 
   &__paginator {
     text-align: center;

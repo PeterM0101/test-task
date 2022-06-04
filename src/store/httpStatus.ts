@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 export interface HttpStatusStateType {
     isLoading: boolean,
@@ -14,10 +14,10 @@ export const httpStatusSlice = createSlice({
     name: 'httpStatus',
     initialState: httpStatusInitialState,
     reducers: {
-        setIsLoading: (state: HttpStatusStateType, action) => {
+        setIsLoading: (state: HttpStatusStateType, action: PayloadAction<boolean>) => {
             state.isLoading =  action.payload
         },
-        setError: (state: HttpStatusStateType, action) => {
+        setError: (state: HttpStatusStateType, action: PayloadAction<string | null>) => {
             state.errorMessage = action.payload
         }
     }

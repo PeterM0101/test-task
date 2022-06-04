@@ -1,12 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
-export interface infoDBCharactersType {
+export interface InfoDBCharactersType {
     count: number,
     currentURL: null | string,
     currentPage: number
 }
 
-const infoDBCharactersInitialState: infoDBCharactersType = {
+const infoDBCharactersInitialState: InfoDBCharactersType = {
     count: 0,
     currentURL: null,
     currentPage: 1
@@ -16,16 +16,16 @@ export const infoDBCharactersSlice = createSlice({
     name: 'infoDBCharacters',
     initialState: infoDBCharactersInitialState,
     reducers: {
-        setInfo: (state: infoDBCharactersType, action) => {
+        setInfo: (state: InfoDBCharactersType, action: PayloadAction<InfoDBCharactersType>) => {
             state =  action.payload
         },
-        changeCurrentURL: (state: infoDBCharactersType, action) => {
+        changeCurrentURL: (state: InfoDBCharactersType, action: PayloadAction<string | null>) => {
             state.currentURL = action.payload
         },
-        setCount: (state: infoDBCharactersType, action) => {
+        setCount: (state: InfoDBCharactersType, action: PayloadAction<number>) => {
             state.count = action.payload
         },
-        setCurrentPage: (state: infoDBCharactersType, action) => {
+        setCurrentPage: (state: InfoDBCharactersType, action: PayloadAction<number>) => {
             state.currentPage = action.payload
         }
     }

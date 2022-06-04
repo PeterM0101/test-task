@@ -12,9 +12,6 @@ const Layout: FC<LayoutProps> = ({children}) => {
         <div className='layout'>
             <Navbar className='layout__navbar navbar'/>
             <main className='layout__main'>
-                <div className='layout__sidebar'>
-                    <Filters />
-                </div>
                 <div className='layout__container'>
                     {children}
                 </div>
